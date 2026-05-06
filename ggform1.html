@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Form 1 - Cloud Computing</title>
+    <style>
+        :root { --primary: #1a73e8; --bg: #f0f2f5; --card: #ffffff; --text: #202124; --success: #1e8e3e; --error: #d93025; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); color: var(--text); padding: 20px; line-height: 1.6; }
+        .form-container { max-width: 750px; margin: 0 auto; background: var(--card); border-radius: 8px; border-top: 10px solid #673ab7; box-shadow: 0 1px 3px rgba(0,0,0,0.12); padding: 25px; }
+        header { border-bottom: 1px solid #e0e0e0; margin-bottom: 25px; padding-bottom: 15px; }
+        .user-info { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 25px; background: #f8f9fa; padding: 15px; border-radius: 8px; font-size: 14px; }
+        .question-box { background: #fff; border: 1px solid #dadce0; border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+        .question-text { font-size: 17px; font-weight: 500; margin-bottom: 15px; display: block; }
+        .option { display: block; padding: 12px; border: 1px solid #eee; border-radius: 6px; margin-bottom: 8px; cursor: pointer; transition: 0.2s; }
+        .option:hover { background: #f1f3f4; }
+        .option.correct { background: #e6f4ea; border-color: var(--success); color: var(--success); font-weight: bold; }
+        .option.wrong { background: #fce8e6; border-color: var(--error); color: var(--error); }
+        .disabled { pointer-events: none; }
+        .status-bar { position: sticky; top: 0; background: #673ab7; color: white; padding: 10px; border-radius: 4px; text-align: center; margin-bottom: 20px; z-index: 100; font-weight: bold; }
+        .nav-btns { display: flex; gap: 10px; justify-content: center; margin-top: 20px; }
+        .btn { padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; text-decoration: none; color: white; }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <header>
+        <h1>ÔN TẬP GOOGLE FORM 1</h1>
+        <p>Hệ thống tự động trộn câu hỏi và đáp án</p>
+    </header>
+
+    <div class="user-info">
+        <div>Họ tên: <strong>Phạm Ngọc Linh</strong></div>
+        <div>MSSV: <strong>22103100043</strong></div>
+        <div>Lớp: <strong>DHTI16A1HN</strong></div>
+    </div>
+
+    <div class="status-bar" id="score-bar">Đúng: 0 | Sai: 0 | Tiến độ: 0/20</div>
+
+    <div id="quiz-content"></div>
+
+    <div class="nav-btns">
+        <a href="index.html" class="btn" style="background: #5f6368;">← VỀ TRANG CHỦ</a>
+        <button class="btn" style="background: #673ab7;" onclick="location.reload()">LÀM LẠI ĐỀ NÀY</button>
+    </div>
+</div>
+
+<script>
+// Dữ liệu từ nội dung bạn đã gửi
+const quizData = [
+    { q: "Trong các công nghệ của Điện toán đám mây, Kubernetes và Docker KHÔNG được sử dụng để làm gì?", a: "Để triển khai, quản lý các ứng dụng phân tán trong môi trường đám mây, ngoại trừ các ứng dụng container", o: ["Để triển khai các ứng dụng phân tán trong môi trường đám mây", "Để quản lý các ứng dụng phân tán trong môi trường đám mây", "Để triển khai, quản lý các ứng dụng container", "Để triển khai, quản lý các ứng dụng phân tán trong môi trường đám mây, ngoại trừ các ứng dụng container"] },
+    { q: "Kiến trúc đám mây hướng thị trường là gì?", a: "Cách mà các dịch vụ đám mây được thiết kế và triển khai để đáp ứng nhu cầu của các thị trường mục tiêu", o: ["Cách mà thị trường tác động lên bảo mật dịch vụ điện toán đám mây", "Cách mà các dịch vụ đám mây tác động lên chính sách pháp luật từ nhu cầu thị trường", "Sự phức tạo của điện toán đám mây phụ thuộc vào sự đa dạng thị trường", "Cách mà các dịch vụ đám mây được thiết kế và triển khai để đáp ứng nhu cầu của các thị trường mục tiêu"] },
+    { q: "Đâu KHÔNG phải là ưu điểm của điện toán đám mây?", a: "Dễ dàng truy cập linh hoạt từ chỉ một nơi", o: ["Khả năng mở rộng linh hoạt", "Tính sẵn sàng cao", "Dễ dàng truy cập linh hoạt từ chỉ một nơi", "Tiết kiệm chi phí"] },
+    { q: "AWS là viết tắt của dịch vụ nào?", a: "Amazon Web Services", o: ["Amazon Website Services", "Amazon Word Services", "Amazon Web Services", "Amazon Words Services"] },
+    { q: "Đâu là một thành phần trong kiến trúc ảo hóa?", a: "Hypervisor", o: ["Supervisor", "Hypervisor", "Cloudvisor", "Securitivisor"] },
+    { q: "Đâu KHÔNG phải ảo hóa trong Điện toán đám mây?", a: "Kết nối ảo", o: ["Kết nối ảo", "Máy chủ ảo", "Lưu trữ ảo", "Mạng ảo"] },
+    { q: "Đâu KHÔNG phải nhận định đúng về lịch sử phát triển của Điện toán đám mây?", a: "Điện toán đám mây là công nghệ mới", o: ["Điện toán đám mây là sự kết hợp và phát triển của nhiều công nghệ đã có từ trước", "Sự ra đời của Amazon EC2 cho phép các công ty thuê tài nguyên máy chủ và tính toán trên nền tảng đám mây", "Ảo hóa giúp tách biệt phần cứng và phần mềm", "Điện toán đám mây là công nghệ mới"] },
+    { q: "Trong hệ thống NFS, máy chủ và máy khách giao tiếp với nhau thông qua giao thức gì?", a: "NFS", o: ["NFS", "TCP", "UNIX", "IP"] },
+    { q: "Đâu KHÔNG phải là một dịch vụ đám mây được triển khai phổ biến hiện nay?", a: "Oracle", o: ["Google Cloud Platform", "Oracle", "Microsoft Azure", "AWS"] },
+    { q: "Đâu là Thách Thức của Trung Tâm Dữ Liệu Lớn trong điện toán đám mây?", a: "Quản lý bảo mật và tuân thủ", o: ["Quản lý bảo mật và tuân thủ", "Quản lý trực tuyến và trực tiếp", "Quản lý tính toán và lưu trữ", "Quản lý tiến độ và tiến trình"] },
+    { q: "Đâu KHÔNG phải giả định thiết kế của HDFS?", a: "HDFS vẫn chưa được thiết kế để tối ưu cho bài toán lưu trữ dữ liệu", o: ["Các lỗi về phần cứng sẽ thường xuyên xảy ra", "HDFS ban đầu được thiết kế chỉ cho phép thay đổi nội dung các tập tin được lưu trữ qua phép toán thêm", "Đặc thù lưu trữ dữ liệu có dung lượng lớn", "HDFS vẫn chưa được thiết kế để tối ưu cho bài toán lưu trữ dữ liệu"] },
+    { q: "Đâu KHÔNG phải là mô hình tổ chức dữ liệu của CSDL NoSQL?", a: "Phi đối xứng", o: ["Hướng văn bản", "Cơ sở dữ liệu đồ thị", "Hệ cột", "Phi đối xứng"] },
+    { q: "Đâu là nhược điểm của điện toán đám mây?", a: "Độ trễ và vấn đề kết nối internet", o: ["Tính sẵn sàng thấp", "Khó khăn trong cung cấp dịch vụ", "Tốn kém chi phí", "Độ trễ và vấn đề kết nối internet"] },
+    { q: "Amazon EC2 (Elastic Compute Cloud) ra đời năm bao nhiêu?", a: "2006", o: ["2008", "2007", "2005", "2006"] },
+    { q: "Phân loại điện toán đám mây theo mô hình dịch vụ bao gồm?", a: "IaaS, PaaS, SaaS", o: ["HDFS và NFS", "Mô hình chỉ tính toán, Mô hình chỉ lưu trữ", "IaaS, PaaS, SaaS", "Public Cloud, Private Cloud, Hybrid Cloud"] },
+    { q: "Đâu KHÔNG phải là các Thành Phần Chính của Trung Tâm Dữ Liệu Lớn?", a: "Hệ thống tiếp đất", o: ["Hệ thống tiếp đất", "Hệ thống lưu trữ", "Hệ thống làm mát", "Điện và nguồn cấp"] },
+    { q: "Đâu là nhận định ĐÚNG về khái niệm điện toán đám mây?", a: "Điện toán đám mây là một mô hình tính toán cho phép truy cập, chia sẻ và sử dụng tài nguyên", o: ["Điện toán đám mây là hệ thống Internet cho phép truy cập, chia sẻ và sử dụng tài nguyên", "Điện toán đám mây là một phần cứng tính toán cho phép truy cập, chia sẻ và sử dụng tài nguyên", "Điện toán đám mây là một phần mềm tính toán cho phép truy cập, chia sẻ và sử dụng tài nguyên", "Điện toán đám mây là một mô hình tính toán cho phép truy cập, chia sẻ và sử dụng tài nguyên"] },
+    { q: "Kỹ thuật phổ biến là thực hiện bằng cách chia cơ sở dữ liệu tổng thể thành các phần và phân tán trên cụm cluster là gì?", a: "Database sharding", o: ["Database shaping", "Database sharing", "Database sharping", "Database sharding"] },
+    { q: "Kỹ thuật nào ra đời giúp tách biệt phần cứng và phần mềm, tạo điều kiện cho việc chia sẻ tài nguyên máy tính trên diện rộng?", a: "Ảo hóa", o: ["Đám mây", "Tính toán mạng", "Ảo hóa", "Điện toán"] },
+    { q: "Mỗi khối của tập tin sẽ được lưu trữ thành nhiều bản sao (replica) khác nhau vì mục đích gì?", a: "An toàn dữ liệu", o: ["Nhiều người dùng cùng kiểm tra dữ liệu", "Một bản lưu ở người dùng, một bản lưu ở nhà cung cấp, một bản lưu ở cơ quan chức năng", "Phòng ngừa rủi ro", "An toàn dữ liệu"] }
+];
+
+let correct = 0;
+let wrong = 0;
+
+function shuffle(array) { return array.sort(() => Math.random() - 0.5); }
+
+function initQuiz() {
+    const container = document.getElementById('quiz-content');
+    const shuffledQuiz = shuffle([...quizData]);
+    
+    shuffledQuiz.forEach((item, index) => {
+        const qBox = document.createElement('div');
+        qBox.className = 'question-box';
+        qBox.innerHTML = `<span class="question-text">Câu ${index + 1}: ${item.q}</span>`;
+        
+        const optsDiv = document.createElement('div');
+        shuffle([...item.o]).forEach(optText => {
+            const opt = document.createElement('div');
+            opt.className = 'option';
+            opt.innerText = optText;
+            opt.onclick = () => {
+                const options = optsDiv.querySelectorAll('.option');
+                options.forEach(o => o.classList.add('disabled'));
+                if(optText === item.a) {
+                    opt.classList.add('correct');
+                    correct++;
+                } else {
+                    opt.classList.add('wrong');
+                    options.forEach(o => { if(o.innerText === item.a) o.classList.add('correct'); });
+                    wrong++;
+                }
+                document.getElementById('score-bar').innerText = `Đúng: ${correct} | Sai: ${wrong} | Tiến độ: ${correct + wrong}/${quizData.length}`;
+            };
+            optsDiv.appendChild(opt);
+        });
+        qBox.appendChild(optsDiv);
+        container.appendChild(qBox);
+    });
+}
+initQuiz();
+</script>
+</body>
+</html>
