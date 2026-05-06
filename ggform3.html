@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ôn Tập Cloud - GG Form 2 (Đề 5)</title>
+    <style>
+        :root { --primary: #1a73e8; --bg: #f0f2f5; --text: #202124; --success: #1e8e3e; --error: #d93025; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; padding: 20px; }
+        .container { max-width: 750px; margin: 0 auto; background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: var(--primary); font-size: 22px; border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-bottom: 20px; }
+        .question-box { margin-bottom: 25px; padding: 18px; border: 1px solid #dadce0; border-radius: 8px; transition: 0.3s; }
+        .question-text { font-weight: 600; margin-bottom: 12px; font-size: 16px; color: #3c4043; }
+        .option { display: block; padding: 10px 15px; margin: 6px 0; border: 1px solid #dadce0; border-radius: 4px; cursor: pointer; transition: 0.2s; font-size: 15px; }
+        .option:hover { background: #f1f3f4; border-color: #bdc1c6; }
+        .option.correct { background: #e6f4ea !important; border-color: var(--success) !important; color: #137333 !important; font-weight: bold; }
+        .option.wrong { background: #fce8e6 !important; border-color: var(--error) !important; color: #a50e0e !important; }
+        .disabled { pointer-events: none; }
+        .status-bar { position: sticky; top: 0; background: white; padding: 12px; border-bottom: 3px solid var(--primary); margin-bottom: 20px; z-index: 100; text-align: center; font-weight: bold; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .btn-back { display: block; width: fit-content; margin: 20px auto; padding: 10px 25px; text-align: center; background: #5f6368; color: white; text-decoration: none; border-radius: 4px; font-weight: 600; }
+        .btn-back:hover { background: #3c4043; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="status-bar" id="status">Tiến độ: 0/20 | Đúng: 0 | Sai: 0</div>
+    <h1>BỘ ĐỀ ÔN TẬP GOOGLE FORM 2 (ĐỀ 5)</h1>
+    
+    <div id="quiz-container"></div>
+
+    <a href="index.html" class="btn-back">← QUAY LẠI MENU CHÍNH</a>
+</div>
+
+<script>
+const questions = [
+    {
+        q: "Đâu là nhận định ĐÚNG về vấn đề ảo hóa?",
+        ops: ["Công nghệ ảo hóa hiện nay an toàn và không mang đến những nguy cơ mới về ATBM", "Công nghệ ảo hóa cho phép người sử dụng dễ dàng tạo lập, sao chép, chia sẻ, di trú và phục hồi các máy ảo trên đó thực thi các ứng dụng.", "Công nghệ ảo hóa sử dụng những tầng phần mềm sẵn có trong kiến trúc phần mềm của hệ thống", "Bên IaaS là bên phải chịu trách nhiệm cho việc an toàn bảo mật với nền tảng ảo hóa"],
+        a: "Công nghệ ảo hóa cho phép người sử dụng dễ dàng tạo lập, sao chép, chia sẻ, di trú và phục hồi các máy ảo trên đó thực thi các ứng dụng."
+    },
+    {
+        q: "Đâu là nhận định ĐÚNG về khái niệm sử dụng dịch vụ hạ tầng IAAS?",
+        ops: ["IAAS đưa ra các dịch vụ cung cấp máy ảo, máy chủ, ảo hóa nhưng không phụ trách cung cấp dung lượng lưu trữ cho các máy ảo, các địa chỉ IP các đám mây riêng", "IAAS đưa ra các dịch vụ cung cấp máy ảo, máy chủ, ảo hóa, các địa chỉ IP các đám mây riêng nhưng không phụ trách cung cấp dung lượng lưu trữ cho các máy ảo", "IAAS đưa ra các dịch vụ cung cấp máy ảo, máy chủ, ảo hóa, cung cấp dung lượng lưu trữ cho các máy ảo nhưng không phụ trách các địa chỉ IP các đám mây riêng", "IAAS đưa ra các dịch vụ cung cấp máy ảo, máy chủ, ảo hóa, cung cấp dung lượng lưu trữ cho các máy ảo, các địa chỉ IP các đám mây riêng"],
+        a: "IAAS đưa ra các dịch vụ cung cấp máy ảo, máy chủ, ảo hóa, cung cấp dung lượng lưu trữ cho các máy ảo, các địa chỉ IP các đám mây riêng"
+    },
+    {
+        q: "VMM là viết tắt của:",
+        ops: ["Vulnerablility Minimization Monitor", "Virtual Machine Monitor", "Vector Machine Monitor", "Vulnerablility Maximization Monitor"],
+        a: "Virtual Machine Monitor"
+    },
+    {
+        q: "Đâu là nhận định SAI về vấn đề Truy cập dịch vụ trong điện toán đám mây?",
+        ops: ["Dịch vụ đám mây có thể dễ dàng được truy cập từ các thiết bị kết nối mạng khác PC như điện thoại hay máy tính bảng", "Vấn đề truy cập dịch vụ đám mây vẫn chịu những vấn đề cũ về ATBM như các phần mềm ăn trộm dữ liệu trên di động", "Paas hỗ trợ việc xây dựng các ứng dụng đám mây mà không cần quan tâm tới vấn đề thiết lập và duy trì hạ tầng phần cứng hay môi trường phần mềm", "Các dịch vụ SaaS hỗ trợ khả năng truy cập thông qua trình duyệt mang lại nhiều thuận lợi"],
+        a: "Paas hỗ trợ việc xây dựng các ứng dụng đám mây mà không cần quan tâm tới vấn đề thiết lập và duy trì hạ tầng phần cứng hay môi trường phần mềm"
+    },
+    {
+        q: "Trong bảo mật và lưu trữ dữ liệu, ACL là viết tắt của cụm từ gì?",
+        ops: ["Assessment Control List", "Access Center List", "Access Control List", "Assessment Center List"],
+        a: "Access Control List"
+    },
+    {
+        q: "OOB là viết tắt của cụm từ gì?",
+        ops: ["Out of Band", "Object Oriented Bound", "Out of Bandwith", "Object Oriented Benchmark"],
+        a: "Out of Band"
+    },
+    {
+        q: "Đâu là nhận định ĐÚNG về việc chia sẻ tài nguyên của mạng ảo?",
+        ops: ["Mạng ảo chỉ nên được chia sẻ bởi duy nhất một một người thuê trong một vùng chứa tài nguyên.", "Mạng ảo phải được chia sẻ bởi nhiều người thuê trong một vùng chứa tài nguyên.", "Mạng ảo có thể được chia sẻ bởi nhiều người thuê trong một vùng chứa tài nguyên.", "Mạng ảo có thể được chia sẻ bởi duy nhất một một người thuê trong một vùng chứa tài nguyên."],
+        a: "Mạng ảo có thể được chia sẻ bởi nhiều người thuê trong một vùng chứa tài nguyên."
+    },
+    {
+        q: "Đâu là nhận định SAI về vấn đề bảo mật ứng dụng trong điện toán đám mây?",
+        ops: ["Người sử dụng thường truy nhập các ứng dụng đám mây thông qua trình duyệt web", "An toàn bảo mật trong dịch vụ SaaS khác với trong các ứng dụng web thông thường", "Tin tặc sử dụng lỗ hổng bảo mật ứng dụng có thể gây thương tổn tới các máy tính của người sử dụng để thực hiện các hành vi ác ý hoặc ăn trộm các thông tin nhạy cảm", "Sai sót trong các trang web có thể tạo nên những lỗ hổng của dịch vụ SaaS"],
+        a: "An toàn bảo mật trong dịch vụ SaaS khác with trong các ứng dụng web thông thường"
+    },
+    {
+        q: "Đâu KHÔNG phải tính năng của SQL Azure Database?",
+        ops: ["Cho phép on-premises lưu trữ dữ liệu quan hệ trên các máy chủ tại trung tâm dữ liệu", "Cung cấp on-premises trong cloud,", "Cung cấp RDBMS trong cloud,", "Cho phép cloud lưu trữ dữ liệu quan hệ trên các máy chủ tại trung tâm dữ liệu"],
+        a: "Cho phép on-premises lưu trữ dữ liệu quan hệ trên các máy chủ tại trung tâm dữ liệu"
+    },
+    {
+        q: "Đâu KHÔNG PHẢI một trong ba mô hình được xây dựng trong SaaS?",
+        ops: ["Mô hình cấu hình qua siêu dữ liệu", "Mô hình khả mở", "Mô hình đám mây hữu hạn", "Mô hình nhiều người thuê đồng thời"],
+        a: "Mô hình đám mây hữu hạn"
+    },
+    {
+        q: "Đâu là hai dịch vụ cơ sở hạ tầng dựa trên đám mây được cung cấp bởi App Fabric trong MS Azure?",
+        ops: ["Service Bus và Partition Key", "Partition Key và Access Control", "Partition Key và DevOps", "Service Bus và Access Control"],
+        a: "Service Bus và Access Control"
+    },
+    {
+        q: "Đâu là nhận định SAI về vấn đề bảo mật dữ liệu trong điện toán đám mây?",
+        ops: ["Việc nhà cung cấp dịch vụ ký hợp đồng sao lưu lại với một đối tác thứ ba cũng là tác nhân ảnh hưởng đến an toàn bảo mật", "Trong SaaS, dữ liệu thường được xử lý dưới dạng bản mã và được lưu trữ trên đám mây", "Nhà cung cấp dịch vụ SaaS sẽ phải chịu trách nhiệm về bảo mật dữ liệu trong khi chúng được xử lý và lưu trữ", "Việc sao lưu dữ liệu rất phổ biến trong các hệ thống đám mây cũng tạo nên những vấn đề phát sinh cho bảo mật dữ liệu"],
+        a: "Trong SaaS, dữ liệu thường được xử lý dưới dạng bản mã và được lưu trữ trên đám mây"
+    },
+    {
+        q: "Timestamp trong Table ở Windows Azure Storage là gì?",
+        ops: ["Thời gian hệ thống ghi nhận lần cuối cập nhật thực thể", "Thời gian hệ thống ghi nhận lần đầu thêm thực thể", "Thời gian hệ thống lưu lại phiên bản của một thực thể", "Thời gian hệ thống ghi nhận người dùng truy cập"],
+        a: "Thời gian hệ thống ghi nhận lần cuối cập nhật thực thể"
+    },
+    {
+        q: "Trong đảm bảo an toàn cho dịch vụ đám mây, bước Lập kế hoạch KHÔNG bao gồm?",
+        ops: ["Đánh giá rủi ro", "Chọn cơ chế kiểm soát an toàn bảo mật", "Phân loại tài nguyên thông tin", "Chọn cơ chế kiểm soát truy cập"],
+        a: "Chọn cơ chế kiểm soát truy cập"
+    },
+    {
+        q: "Phương thức nào được Windows Azure cung cấp để truy cập các dữ liệu nền tảng này?",
+        ops: ["GET", "POST", "REQUEST", "REST"],
+        a: "REST"
+    },
+    {
+        q: "Mô hình dịch vụ phần mềm (SaaS), gánh nặng an toàn bảo mật thuộc về bên nào?",
+        ops: ["Đơn vị cung cấp dịch vụ", "Đơn vị cung cấp phần mềm", "Đơn vị phát triển phần mềm", "Đơn vị phát triển dịch vụ"],
+        a: "Đơn vị cung cấp dịch vụ"
+    },
+    {
+        q: "Đâu là nhận định ĐÚNG về vấn đề vòng đời của ứng dụng?",
+        ops: ["Việc nâng cấp ứng dụng đòi hỏi nhà cung cấp dịch vụ IaaS phải hỗ trợ tốt cho những thay đổi của ứng dụng.", "Giống như các loại hình ứng dụng khác, các ứng dụng trên dịch vụ đám mây không thể nâng cấp liên tục.", "laaS cung cấp một vùng chứa tài nguyên như máy chủ, mạng, kho lưu trữ bao gồm cả các tài nguyên được ảo hóa", "Sự thay đổi của các thành phần ứng dụng trong quá trình nâng cấp không được phép gây ra các vấn đề về ATBM"],
+        a: "Sự thay đổi của các thành phần ứng dụng trong quá trình nâng cấp không được phép gây ra các vấn đề về ATBM"
+    },
+    {
+        q: "Aruze Function là gì?",
+        ops: ["Dịch vụ serverless thực thi mã nguồn trong một máy chủ duy nhất", "Dịch vụ serverless giúp thực thi mã nguồn mà với yêu cầu quản lý máy chủ.", "Dịch vụ serverless giúp quản lý máy chủ nhưng không phải thực thi mã nguồn", "Dịch vụ serverless giúp thực thi mã nguồn mà không cần quản lý máy chủ."],
+        a: "Dịch vụ serverless giúp thực thi mã nguồn mà không cần quản lý máy chủ."
+    },
+    {
+        q: "Hộp cát (sandbox) trong thiết kế kiến trúc điện toán đám mây là gì?",
+        ops: ["Là một lớp trừu tượng nằm giữa phần mềm với hệ điều hành", "Là một lớp trừu tượng nằm giữa phần mềm với phần cứng", "Là một lớp cụ thể nằm giữa phần mềm với phần cứng", "Là một lớp cụ thể nằm giữa phần mềm với hệ điều hành"],
+        a: "Là một lớp trừu tượng nằm giữa phần mềm với hệ điều hành"
+    },
+    {
+        q: "Đâu là quy trình 4 bước thực hiện chính trong quy trình an toàn bảo mật cho dịch vụ đám mây?",
+        ops: ["Lập kế hoạch, Thử nghiệm, Triển khai, Đánh giá", "Lập kế hoạch, Triển khai, Đánh giá, Duy trì", "Tìm hiểu vấn đề, Lập kế hoạch, Triển khai, Duy trì", "Tìm hiểu vấn đề, Lập kế hoạch, Triển khai, Đánh giá"],
+        a: "Tìm hiểu vấn đề, Lập kế hoạch, Triển khai, Đánh giá"
+    }
+];
+
+let correctCount = 0;
+let wrongCount = 0;
+
+function shuffle(array) {
+    return array.sort(() => Math.random() - 0.5);
+}
+
+function renderQuiz() {
+    const container = document.getElementById('quiz-container');
+    
+    questions.forEach((item, index) => {
+        const box = document.createElement('div');
+        box.className = 'question-box';
+        box.innerHTML = `<div class="question-text">Câu ${index + 1}: ${item.q}</div>`;
+
+        const optsDiv = document.createElement('div');
+        shuffle([...item.ops]).forEach(optText => {
+            const optBtn = document.createElement('div');
+            optBtn.className = 'option';
+            optBtn.innerText = optText;
+            
+            optBtn.onclick = () => {
+                const siblings = optsDiv.querySelectorAll('.option');
+                if (siblings[0].classList.contains('disabled')) return;
+                
+                siblings.forEach(s => s.classList.add('disabled'));
+                
+                if (optText === item.a) {
+                    optBtn.classList.add('correct');
+                    correctCount++;
+                } else {
+                    optBtn.classList.add('wrong');
+                    siblings.forEach(s => {
+                        if (s.innerText === item.a) s.classList.add('correct');
+                    });
+                    wrongCount++;
+                }
+                updateStatus();
+            };
+            optsDiv.appendChild(optBtn);
+        });
+
+        box.appendChild(optsDiv);
+        container.appendChild(box);
+    });
+}
+
+function updateStatus() {
+    const total = correctCount + wrongCount;
+    document.getElementById('status').innerText = `Tiến độ: ${total}/20 | Đúng: ${correctCount} | Sai: ${wrongCount}`;
+}
+
+renderQuiz();
+</script>
+
+</body>
+</html>
