@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ôn Tập Cloud - GG Form 2</title>
+    <style>
+        :root { --primary: #1a73e8; --bg: #f0f2f5; --text: #202124; --success: #1e8e3e; --error: #d93025; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; padding: 20px; }
+        .container { max-width: 700px; margin: 0 auto; background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: var(--primary); font-size: 24px; border-bottom: 2px solid var(--primary); padding-bottom: 10px; }
+        .question-box { margin-bottom: 30px; padding: 20px; border: 1px solid #dadce0; border-radius: 8px; position: relative; }
+        .question-text { font-weight: 600; margin-bottom: 15px; font-size: 17px; }
+        .option { display: block; padding: 12px; margin: 8px 0; border: 1px solid #dadce0; border-radius: 5px; cursor: pointer; transition: all 0.2s; }
+        .option:hover { background: #f8f9fa; }
+        .option.correct { background: #e6f4ea; border-color: var(--success); color: #137333; font-weight: bold; }
+        .option.wrong { background: #fce8e6; border-color: var(--error); color: #a50e0e; }
+        .disabled { pointer-events: none; }
+        .status-bar { position: sticky; top: 0; background: white; padding: 15px; border-bottom: 3px solid var(--primary); margin-bottom: 20px; z-index: 100; text-align: center; font-weight: bold; border-radius: 5px; }
+        .btn-back { display: block; width: 200px; margin: 20px auto; padding: 12px; text-align: center; background: #5f6368; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="status-bar" id="status">Tiến độ: 0/20 | Đúng: 0 | Sai: 0</div>
+    <h1>BỘ ĐỀ ÔN TẬP GOOGLE FORM 2</h1>
+    
+    <div id="quiz-container"></div>
+
+    <a href="index.html" class="btn-back">QUAY LẠI MENU CHÍNH</a>
+</div>
+
+<script>
+const questions = [
+    {
+        q: "Đâu KHÔNG là cấp độ trong bảo mật hệ điều hành trong đảm bảo an toàn cho dịch vụ đám mây?",
+        ops: ["Bảo mật cho hệ điều hành của các máy ảo chạy trên nó", "Bảo mật cho hệ điều hành của máy chủ vật lý", "Bảo mật cho các hệ điều hành máy chủ lưu trữ dữ liệu", "Bảo mật cho các API"],
+        a: "Bảo mật cho các API"
+    },
+    {
+        q: "Đâu là nhận định ĐÚNG về bảo mật mạng trong đảm bảo an toàn cho dịch vụ đám mây?",
+        ops: ["Trong mô hình cung cấp dịch vụ của Amazon EC2, các quản trị viên của hệ thống đám mây là quản trị viên của các máy ảo", "Hệ thống đám mây sẽ yêu cầu giấy phép X.509 khi người quản trị thực hiện các thay đổi", "Hệ thống tường lửa nội bộ được sử dụng để kiểm soát sự trao đổi nội tại bên trong đám mây", "Việc kiểm soát và thay đổi các luật tường lửa phải do trung tâm điều khiển đảm nhận"],
+        a: "Hệ thống đám mây sẽ yêu cầu giấy phép X.509 khi người quản trị thực hiện các thay đổi"
+    },
+    {
+        q: "Danh sách IP trắng là gì?",
+        ops: ["Danh sách IP của kẻ tấn công", "Danh sách IP của các quản trị viên hệ thống", "Danh sách IP của nhân sự trong doanh nghiệp cung cấp dich vụ", "Danh sách IP của người dùng"],
+        a: "Danh sách IP của các quản trị viên hệ thống"
+    },
+    {
+        q: "Đâu KHÔNG phải là một trong các thành phần của PaaS?",
+        ops: ["Công cụ quản trị phân tán", "Cơ sở hạ tầng ảo", "Quản lý bảo mật", "Công cụ phát triển"],
+        a: "Cơ sở hạ tầng ảo"
+    },
+    {
+        q: "Ví dụ về phòng ngự chiều sâu cho phân hệ kiểm soát truy nhập bao gồm ba lớp là những lớp nào và theo thứ tự nào?",
+        ops: ["lớp 1: mã hóa thông điệp; lớp 2: bộ định tuyến cổng vào với cơ chế lọc IP; lớp 3: mạng riêng ảo", "lớp 1: mã hóa thông điệp; lớp 2: bộ định tuyến cổng vào với cơ chế lọc IP; lớp 3: token bảo mật", "lớp 1: mạng riêng ảo; lớp 2: bộ định tuyến cổng vào với cơ chế lọc IP; lớp 3: token bảo mật", "lớp 1: mạng riêng ảo; lớp 2: mã hóa thông điệp; lớp 3: token bảo mật"],
+        a: "lớp 1: mạng riêng ảo; lớp 2: bộ định tuyến cổng vào với cơ chế lọc IP; lớp 3: token bảo mật"
+    },
+    {
+        q: "Đâu là nhận định ĐÚNG về mã hóa gói tin trong cô lập máy ảo?",
+        ops: ["Nếu các gói tin được mã hóa, máy ảo có thể theo dõi gói tin từ máy ảo khác", "Nếu các gói tin được mã hóa, máy ảo có thể theo dõi gói tin từ người dùng khác", "Nếu các gói tin không được mã hóa, máy ảo có thể theo dõi gói tin từ người dùng khác", "Nếu các gói tin không được mã hóa, máy ảo có thể theo dõi, quan sát các gói tin gửi đến/gửi đi từ máy ảo khác trong cùng một mạng."],
+        a: "Nếu các gói tin không được mã hóa, máy ảo có thể theo dõi, quan sát các gói tin gửi đến/gửi đi từ máy ảo khác trong cùng một mạng."
+    },
+    {
+        q: "Đâu là nhận định SAI về kỹ thuật Bẫy mật ong (Honeypot)?",
+        ops: ["Nếu không kết hợp với Hộp cát, 'Hũ mật ong' trở thành lỗ hổng bảo mật để kẻ tấn công khai thác", "Hũ mật ong tạo nên một hệ thống không tồn tại nhằm thu hút sự tấn công", "Hũ mật ong là một kỹ thuật bẫy nổi tiếng", "Hũ mật ong được sử dụng để quan sát, phân tích và cảnh báo"],
+        a: "Nếu không kết hợp với Hộp cát, 'Hũ mật ong' trở thành lỗ hổng bảo mật để kẻ tấn công khai thác"
+    },
+    {
+        q: "Đâu KHÔNG phải là nhận định đúng về nhiệm vụ của Google App Engine?",
+        ops: ["Phát triển các ứng dụng web trong trung tâm dữ liệu của Google quản lý", "Cung cấp tính năng tự động mở rộng quy mô cho các ứng dụng web.", "Quản lý truy cập các phần mềm trong trung tâm dữ liệu Google", "Lưu trữ các ứng dụng web trong trung tâm dữ liệu của Google quản lý"],
+        a: "Quản lý truy cập các phần mềm trong trung tâm dữ liệu Google"
+    },
+    {
+        q: "Hệ thống mạng cục bộ chia làm ba mạng chính là những loại mạng gì?",
+        ops: ["Mạng ngoại biên, Mạng lõi và Mạng kết nối với CSDL", "Mạng OOB, Mạng kết nối với CSDL và mạng phân tán", "Mạng OOB, Mạng lõi và Mạng ngoại biên", "Mạng OOB, Mạng lõi và Mạng kết nối với CSDL"],
+        a: "Mạng OOB, Mạng lõi và Mạng kết nối với CSDL"
+    },
+    {
+        q: "Nhiệm vụ của Huron Data Sync là gì?",
+        ops: ["Lưu trữ dữ liệu hệ thống", "Cho phép đồng bộ dữ liệu", "Tạo chữ ký điện tử phục vụ xác thực", "Lưu trữ dữ liệu tài khoản"],
+        a: "Cho phép đồng bộ dữ liệu"
+    },
+    {
+        q: "Mục tiêu chính của thiết kế kiến trúc hệ thống đám mây nhằm đảm bảo an toàn bảo mật là gì?",
+        ops: ["Xác định được một hoặc nhiều cấu trúc tổng thể hệ thống", "Xác định được một và chỉ một cấu trúc tổng thể hệ thống với các thành phần và mối quan hệ", "Xác định chi tiết cấu trúc với các mối quan hệ", "Xác định hệ thống quản trị"],
+        a: "Xác định được một và chỉ một cấu trúc tổng thể hệ thống với các thành phần và mối quan hệ"
+    },
+    {
+        q: "Đâu KHÔNG là một trong những yêu cầu về quản lý truy cập trong điện toán đám mây?",
+        ops: ["Quản trị viên chỉ có quyền truy cập hạn chế tới dữ liệu khách hàng", "Quyền truy cập linh hoạt nhưng phải công bố rõ trong hợp đồng", "Cơ chế xác quyền đủ mạnh để không ảnh hưởng toàn đám mây", "Quản lý chia sẻ tài nguyên: Người dùng được toàn quyền sử dụng và chia sẻ phần mềm, tài nguyên"],
+        a: "Quản lý chia sẻ tài nguyên: Người dùng được toàn quyền sử dụng và chia sẻ phần mềm, tài nguyên"
+    },
+    {
+        q: "Đâu KHÔNG phải là một trong những yêu cầu chính cho quản lý khóa trong điện toán đám mây?",
+        ops: ["Có cơ chế kiểm soát truy cập vào khóa", "Đảm bảo khôi phục khóa khi có lỗi", "Quản lý khóa phải đảm bảo xác thực liên tục từ cả hai phía", "Việc quản lý khóa không cần xác thực"],
+        a: "Quản lý khóa phải đảm bảo xác thực liên tục từ cả hai phía"
+    },
+    {
+        q: "Đâu là yêu cầu KHÔNG đúng về quản lý định danh trong thiết kế kiến trúc hệ thống đám mây?",
+        ops: ["Phân hệ quản lý định danh dùng để chứng thực người dùng", "Khi định danh tái sử dụng, người mới không được truy cập thông tin người cũ", "Kiểm tra định danh khớp yêu cầu pháp luật", "Lưu thông tin định danh vĩnh viễn không bao giờ xóa"],
+        a: "Lưu thông tin định danh vĩnh viễn không bao giờ xóa"
+    },
+    {
+        q: "Đâu là nhận định ĐÚNG về trách nhiệm của nhà cung cấp và nhà phát triển trong PaaS?",
+        ops: ["Nhà cung cấp quản lý phần mềm, nhà phát triển quản lý mạng", "Nhà cung cấp quản lý hạ tầng/OS/mạng, nhà phát triển quản lý sử dụng/xây dựng phần mềm", "Nhà cung cấp xây dựng phần mềm, nhà phát triển quản lý mạng", "Cả hai cùng quản lý hạ tầng"],
+        a: "Nhà cung cấp quản lý hạ tầng/OS/mạng, nhà phát triển quản lý sử dụng/xây dựng phần mềm"
+    },
+    {
+        q: "Bảo vệ hệ thống khỏi các thảm họa tự nhiên, xung sét, xung điện từ thuộc loại bảo mật nào?",
+        ops: ["Bảo mật giám sát", "Bảo mật mức vật lý", "Bảo mật mạng", "Bảo mật lưu trữ"],
+        a: "Bảo mật mức vật lý"
+    },
+    {
+        q: "Đâu KHÔNG là một số ứng dụng của Nhà cung cấp PaaS?",
+        ops: ["Blockchain", "Internet of Things (IoT)", "Phát triển ứng dụng web", "Phân tích dữ liệu"],
+        a: "Blockchain"
+    },
+    {
+        q: "Trong thiết kế kiến trúc hệ thống, nhận định SAI về yêu cầu quản lý khóa?",
+        ops: ["Hủy bỏ khóa phải có hiệu lực tức thì trên các trạm", "Mã hóa dữ liệu và máy ảo khi cần thiết", "Đảm bảo việc phân phối khóa khi có lỗi", "Có cơ chế kiểm soát truy cập vào khóa"],
+        a: "Đảm bảo việc phân phối khóa khi có lỗi"
+    },
+    {
+        q: "Để nhân viên được cấp phép truy cập tầng trung tâm dữ liệu, điều kiện xác thực là gì?",
+        ops: ["Xác thực 2 bước không ít hơn 3 lần", "Xác thực 2 bước không ít hơn 2 lần", "Xác thực 3 bước không ít hơn 3 lần", "Xác thực 1 bước"],
+        a: "Xác thực 2 bước không ít hơn 2 lần"
+    },
+    {
+        q: "Đâu KHÔNG là các đặc điểm của sử dụng dịch vụ phần mềm SaaS?",
+        ops: ["Tính sẵn sàng cao", "Cung cấp qua Internet", "Thanh toán theo thuê bao", "Người dùng được toàn quyền quản lý tài nguyên hệ thống"],
+        a: "Người dùng được toàn quyền quản lý tài nguyên hệ thống"
+    }
+];
+
+let correctCount = 0;
+let wrongCount = 0;
+
+function shuffle(array) {
+    return array.sort(() => Math.random() - 0.5);
+}
+
+function renderQuiz() {
+    const container = document.getElementById('quiz-container');
+    const shuffledQs = shuffle([...questions]);
+
+    shuffledQs.forEach((item, index) => {
+        const box = document.createElement('div');
+        box.className = 'question-box';
+        box.innerHTML = `<div class="question-text">Câu ${index + 1}: ${item.q}</div>`;
+
+        const optsDiv = document.createElement('div');
+        shuffle([...item.ops]).forEach(optText => {
+            const optBtn = document.createElement('div');
+            optBtn.className = 'option';
+            optBtn.innerText = optText;
+            optBtn.onclick = () => {
+                const siblings = optsDiv.querySelectorAll('.option');
+                siblings.forEach(s => s.classList.add('disabled'));
+                
+                if (optText === item.a) {
+                    optBtn.classList.add('correct');
+                    correctCount++;
+                } else {
+                    optBtn.classList.add('wrong');
+                    siblings.forEach(s => {
+                        if (s.innerText === item.a) s.classList.add('correct');
+                    });
+                    wrongCount++;
+                }
+                updateStatus();
+            };
+            optsDiv.appendChild(optBtn);
+        });
+
+        box.appendChild(optsDiv);
+        container.appendChild(box);
+    });
+}
+
+function updateStatus() {
+    const total = correctCount + wrongCount;
+    document.getElementById('status').innerText = `Tiến độ: ${total}/20 | Đúng: ${correctCount} | Sai: ${wrongCount}`;
+}
+
+renderQuiz();
+</script>
+
+</body>
+</html>
