@@ -3,32 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ôn Tập Cloud - GG Form 2</title>
+    <title>Ôn Tập Cloud - GG Form 2 (Đề 6)</title>
     <style>
         :root { --primary: #1a73e8; --bg: #f0f2f5; --text: #202124; --success: #1e8e3e; --error: #d93025; }
         body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; padding: 20px; }
-        .container { max-width: 700px; margin: 0 auto; background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        h1 { text-align: center; color: var(--primary); font-size: 24px; border-bottom: 2px solid var(--primary); padding-bottom: 10px; }
-        .question-box { margin-bottom: 30px; padding: 20px; border: 1px solid #dadce0; border-radius: 8px; position: relative; }
-        .question-text { font-weight: 600; margin-bottom: 15px; font-size: 17px; }
-        .option { display: block; padding: 12px; margin: 8px 0; border: 1px solid #dadce0; border-radius: 5px; cursor: pointer; transition: all 0.2s; }
-        .option:hover { background: #f8f9fa; }
-        .option.correct { background: #e6f4ea; border-color: var(--success); color: #137333; font-weight: bold; }
-        .option.wrong { background: #fce8e6; border-color: var(--error); color: #a50e0e; }
+        .container { max-width: 750px; margin: 0 auto; background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: var(--primary); font-size: 22px; border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-bottom: 20px; }
+        .question-box { margin-bottom: 25px; padding: 18px; border: 1px solid #dadce0; border-radius: 8px; transition: 0.3s; }
+        .question-text { font-weight: 600; margin-bottom: 12px; font-size: 16px; color: #3c4043; }
+        .option { display: block; padding: 10px 15px; margin: 6px 0; border: 1px solid #dadce0; border-radius: 4px; cursor: pointer; transition: 0.2s; font-size: 15px; }
+        .option:hover { background: #f1f3f4; border-color: #bdc1c6; }
+        .option.correct { background: #e6f4ea !important; border-color: var(--success) !important; color: #137333 !important; font-weight: bold; }
+        .option.wrong { background: #fce8e6 !important; border-color: var(--error) !important; color: #a50e0e !important; }
         .disabled { pointer-events: none; }
-        .status-bar { position: sticky; top: 0; background: white; padding: 15px; border-bottom: 3px solid var(--primary); margin-bottom: 20px; z-index: 100; text-align: center; font-weight: bold; border-radius: 5px; }
-        .btn-back { display: block; width: 200px; margin: 20px auto; padding: 12px; text-align: center; background: #5f6368; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; }
+        .status-bar { position: sticky; top: 0; background: white; padding: 12px; border-bottom: 3px solid var(--primary); margin-bottom: 20px; z-index: 100; text-align: center; font-weight: bold; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .btn-back { display: block; width: fit-content; margin: 20px auto; padding: 10px 25px; text-align: center; background: #5f6368; color: white; text-decoration: none; border-radius: 4px; font-weight: 600; }
+        .btn-back:hover { background: #3c4043; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="status-bar" id="status">Tiến độ: 0/20 | Đúng: 0 | Sai: 0</div>
-    <h1>BỘ ĐỀ ÔN TẬP GOOGLE FORM 2</h1>
+    <h1>BỘ ĐỀ ÔN TẬP GOOGLE FORM 2 (KIỂM TRA LẦN 2)</h1>
     
     <div id="quiz-container"></div>
 
-    <a href="index.html" class="btn-back">QUAY LẠI MENU CHÍNH</a>
+    <a href="index.html" class="btn-back">← QUAY LẠI MENU CHÍNH</a>
 </div>
 
 <script>
@@ -60,13 +61,13 @@ const questions = [
     },
     {
         q: "Đâu là nhận định ĐÚNG về mã hóa gói tin trong cô lập máy ảo?",
-        ops: ["Nếu các gói tin được mã hóa, máy ảo có thể theo dõi gói tin từ máy ảo khác", "Nếu các gói tin được mã hóa, máy ảo có thể theo dõi gói tin từ người dùng khác", "Nếu các gói tin không được mã hóa, máy ảo có thể theo dõi gói tin từ người dùng khác", "Nếu các gói tin không được mã hóa, máy ảo có thể theo dõi, quan sát các gói tin gửi đến/gửi đi từ máy ảo khác trong cùng một mạng."],
+        ops: ["Nếu các gói tin được mã hóa, máy ảo có thể theo dõi, quan sát các gói tin gửi đến/gửi đi từ máy ảo khác trong cùng một mạng.", "Nếu các gói tin được mã hóa, máy ảo có thể theo dõi, quan sát các gói tin gửi đến/gửi đi từ người dùng khác trong cùng một mạng.", "Nếu các gói tin không được mã hóa, máy ảo có thể theo dõi, quan sát các gói tin gửi đến/gửi đi từ người dùng khác trong cùng một mạng.", "Nếu các gói tin không được mã hóa, máy ảo có thể theo dõi, quan sát các gói tin gửi đến/gửi đi từ máy ảo khác trong cùng một mạng."],
         a: "Nếu các gói tin không được mã hóa, máy ảo có thể theo dõi, quan sát các gói tin gửi đến/gửi đi từ máy ảo khác trong cùng một mạng."
     },
     {
         q: "Đâu là nhận định SAI về kỹ thuật Bẫy mật ong (Honeypot)?",
-        ops: ["Nếu không kết hợp với Hộp cát, 'Hũ mật ong' trở thành lỗ hổng bảo mật để kẻ tấn công khai thác", "Hũ mật ong tạo nên một hệ thống không tồn tại nhằm thu hút sự tấn công", "Hũ mật ong là một kỹ thuật bẫy nổi tiếng", "Hũ mật ong được sử dụng để quan sát, phân tích và cảnh báo"],
-        a: "Nếu không kết hợp với Hộp cát, 'Hũ mật ong' trở thành lỗ hổng bảo mật để kẻ tấn công khai thác"
+        ops: ["Nếu không kết hợp với Hộp cát, \"Hũ mật ong\" trở thành lỗ hổng bảo mật để kẻ tấn công khai thác", "Trong một hệ thống mạng doanh nghiệp, \"hũ mật ong” tạo nên một hệ thống không tồn tại hoặc không có giá trị nhằm thu hút sự tấn công. Khi đã thu hút thành công,", "\"Hũ mật ong” là một kỹ thuật bẫy nổi tiếng.", "\"Hũ mật ong” lại được sử dụng để quan sát, phân tích và cảnh báo."],
+        a: "Nếu không kết hợp với Hộp cát, \"Hũ mật ong\" trở thành lỗ hổng bảo mật để kẻ tấn công khai thác"
     },
     {
         q: "Đâu KHÔNG phải là nhận định đúng về nhiệm vụ của Google App Engine?",
@@ -85,53 +86,53 @@ const questions = [
     },
     {
         q: "Mục tiêu chính của thiết kế kiến trúc hệ thống đám mây nhằm đảm bảo an toàn bảo mật là gì?",
-        ops: ["Xác định được một hoặc nhiều cấu trúc tổng thể hệ thống", "Xác định được một và chỉ một cấu trúc tổng thể hệ thống với các thành phần và mối quan hệ", "Xác định chi tiết cấu trúc với các mối quan hệ", "Xác định hệ thống quản trị"],
-        a: "Xác định được một và chỉ một cấu trúc tổng thể hệ thống với các thành phần và mối quan hệ"
+        ops: ["Xác định được một hoặc nhiều cấu trúc tổng thể của hệ thống với những thành phần và mối quan hệ giữa chúng", "Xác định được một và chỉ một cấu trúc tổng thể của hệ thống với những thành phần và mối quan hệ giữa chúng", "Xác định được một hoặc nhiều chỉ một cấu trúc chi tiết của hệ thống với những mối quan hệ giữa chúng", "Xác định được một và chỉ một cấu trúc chi tiết của hệ thống với những mối quan hệ giữa chúng"],
+        a: "Xác định được một và chỉ một cấu trúc tổng thể của hệ thống với những thành phần và mối quan hệ giữa chúng"
     },
     {
         q: "Đâu KHÔNG là một trong những yêu cầu về quản lý truy cập trong điện toán đám mây?",
-        ops: ["Quản trị viên chỉ có quyền truy cập hạn chế tới dữ liệu khách hàng", "Quyền truy cập linh hoạt nhưng phải công bố rõ trong hợp đồng", "Cơ chế xác quyền đủ mạnh để không ảnh hưởng toàn đám mây", "Quản lý chia sẻ tài nguyên: Người dùng được toàn quyền sử dụng và chia sẻ phần mềm, tài nguyên"],
-        a: "Quản lý chia sẻ tài nguyên: Người dùng được toàn quyền sử dụng và chia sẻ phần mềm, tài nguyên"
+        ops: ["Quản trị viên của đám mây chỉ có quyền truy cập hạn chế tới dữ liệu của khách hàng", "Quyền truy cập dù có thể linh hoạt thay đổi, nhưng phải được công bố rõ ràng trong hợp đồng sử dụng dịch vụ", "Cần có cơ chế xác quyền đủ mạnh để đảm bảo các thao tác này không ảnh hưởng trên toàn đám mây", "Quản lý và chia sẻ tài nguyên: Người dùng được toàn quyền sử dụng và chia sẻ phần mềm, tài nguyên"],
+        a: "Quản lý và chia sẻ tài nguyên: Người dùng được toàn quyền sử dụng và chia sẻ phần mềm, tài nguyên"
     },
     {
-        q: "Đâu KHÔNG phải là một trong những yêu cầu chính cho quản lý khóa trong điện toán đám mây?",
-        ops: ["Có cơ chế kiểm soát truy cập vào khóa", "Đảm bảo khôi phục khóa khi có lỗi", "Quản lý khóa phải đảm bảo xác thực liên tục từ cả hai phía", "Việc quản lý khóa không cần xác thực"],
-        a: "Quản lý khóa phải đảm bảo xác thực liên tục từ cả hai phía"
+        q: "Đâu KHÔNG là các đặc điểm của sử dụng dịch vụ phần mềm SAAS?",
+        ops: ["Tính sẵn sàng cao: Các đơn vị cung cấp SAAS đảm bảo dịch vụ hoạt đông liên tục với khả năng khôi phục dữ liệu nhanh chóng.", "Cung cấp qua Internet: SAAS được phân phối qua các máy chủ đám mây, cho phép người dùng truy cập từ bất kỳ đâu có kết nối internet.", "Thanh toán theo mô hình thuê bao: Người dùng trả phí theo nhu cầu hoặc thời gian sử dụng thay vì mua giấy phép phần mềm vĩnh viễn.", "Quản lý và chia sẻ tài nguyên: Người dùng được toàn quyền sử dụng và chia sẻ phần mềm, tài nguyên"],
+        a: "Quản lý và chia sẻ tài nguyên: Người dùng được toàn quyền sử dụng và chia sẻ phần mềm, tài nguyên"
     },
     {
-        q: "Đâu là yêu cầu KHÔNG đúng về quản lý định danh trong thiết kế kiến trúc hệ thống đám mây?",
-        ops: ["Phân hệ quản lý định danh dùng để chứng thực người dùng", "Khi định danh tái sử dụng, người mới không được truy cập thông tin người cũ", "Kiểm tra định danh khớp yêu cầu pháp luật", "Lưu thông tin định danh vĩnh viễn không bao giờ xóa"],
-        a: "Lưu thông tin định danh vĩnh viễn không bao giờ xóa"
+        q: "Đâu là KHÔNG phải là một trong những yêu cầu chính cho quản lý khóa trong điện toán đám mây?",
+        ops: ["Có cơ chế kiếm soát và giới hạn các truy cập vào khóa.", "Đảm bảo việc khôi phục cho các khóa khi có lỗi. Mã hóa dữ liệu và máy ảo khi cần thiết.", "Việc quản lý khóa phải đảm bảo có sự xác thực liên tục từ cả hai phía", "Với mô hình đám mây có cơ sở hạ tầng trên nhiều trung tâm dữ liệu, cần đảm bảo việc hủy bỏ khóa phải có hiệu lực tức thì trên các trạm."],
+        a: "Việc quản lý khóa phải đảm bảo có sự xác thực liên tục từ cả hai phía"
     },
     {
-        q: "Đâu là nhận định ĐÚNG về trách nhiệm của nhà cung cấp và nhà phát triển trong PaaS?",
-        ops: ["Nhà cung cấp quản lý phần mềm, nhà phát triển quản lý mạng", "Nhà cung cấp quản lý hạ tầng/OS/mạng, nhà phát triển quản lý sử dụng/xây dựng phần mềm", "Nhà cung cấp xây dựng phần mềm, nhà phát triển quản lý mạng", "Cả hai cùng quản lý hạ tầng"],
-        a: "Nhà cung cấp quản lý hạ tầng/OS/mạng, nhà phát triển quản lý sử dụng/xây dựng phần mềm"
+        q: "Đâu là yêu cầu KHÔNG đúng về quản lý định danh trong thiết kế kiến trúc hệ thống đám mây nhằm đảm bảo an toàn bảo mật?",
+        ops: ["Phân hệ quản lý định danh cũng phải được sử dụng cho mục đính chứng thực người dùng của hệ thống đám mây.", "Khi một định danh được xóa bỏ, sau đó tái sử dụng, cần đảm bảo người sử dụng mới không thể truy cập vào các thông tin của định danh trước đó.", "Kiểm tra định danh của người sử dụng khi đăng ký khớp các yêu cầu của pháp luật.", "Lưu thông tin định danh của người sử dụng, thường xuyên kiểm tra và xóa thông tin họ rút khỏi hệ thống, để đảm bảo quyền riêng tư."],
+        a: "Lưu thông tin định danh của người sử dụng, thường xuyên kiểm tra và xóa thông tin họ rút khỏi hệ thống, để đảm bảo quyền riêng tư."
     },
     {
-        q: "Bảo vệ hệ thống khỏi các thảm họa tự nhiên, xung sét, xung điện từ thuộc loại bảo mật nào?",
-        ops: ["Bảo mật giám sát", "Bảo mật mức vật lý", "Bảo mật mạng", "Bảo mật lưu trữ"],
+        q: "Đâu là nhận định ĐÚNG về trách nhiệm của nhà cung cấp và nhà phát triển trong sử dụng dịch vụ PaaS?",
+        ops: ["Nhà cung cấp chịu trách nhiệm quản lý các máy chủ, hệ điều hành và mạng nhưng nhà phát triển không phải chịu trách nhiệm việc sử dụng và xây dựng phần mềm", "Nhà cung cấp chịu trách nhiệm sử dụng và xây dựng phần mềm và nhà phát triển chịu trách nhiệm việc quản lý các máy chủ, hệ điều hành và mạng", "Nhà cung cấp chịu trách nhiệm sử dụng và xây dựng phần mềm nhưng nhà phát triển không phải chịu trách nhiệm việc quản lý các máy chủ, hệ điều hành và mạng", "Nhà cung cấp chịu trách nhiệm quản lý các máy chủ, hệ điều hành và mạng và nhà phát triển chịu trách nhiệm việc sử dụng và xây dựng phần mềm"],
+        a: "Nhà cung cấp chịu trách nhiệm quản lý các máy chủ, hệ điều hành và mạng và nhà phát triển chịu trách nhiệm việc sử dụng và xây dựng phần mềm"
+    },
+    {
+        q: "Bảo vệ hệ thống khỏi các thảm họa tự nhiên, ví dụ như tác nhận xung sét gây mất dữ liệu máy chủ, xung điện từ lên video các hệ thống giám sát?",
+        ops: ["Bảo mật cho các hệ thống giám sát:", "Bảo mật mức vật lý", "Bảo mật mạng", "Bảo mật lưu trữ dữ liệu"],
         a: "Bảo mật mức vật lý"
     },
     {
         q: "Đâu KHÔNG là một số ứng dụng của Nhà cung cấp PaaS?",
-        ops: ["Blockchain", "Internet of Things (IoT)", "Phát triển ứng dụng web", "Phân tích dữ liệu"],
+        ops: ["Blockchain", "Internet of Things (IOT)", "Phát triển và triển khai ứng dụng web", "Phân tích dữ liệu"],
         a: "Blockchain"
     },
     {
-        q: "Trong thiết kế kiến trúc hệ thống, nhận định SAI về yêu cầu quản lý khóa?",
-        ops: ["Hủy bỏ khóa phải có hiệu lực tức thì trên các trạm", "Mã hóa dữ liệu và máy ảo khi cần thiết", "Đảm bảo việc phân phối khóa khi có lỗi", "Có cơ chế kiểm soát truy cập vào khóa"],
-        a: "Đảm bảo việc phân phối khóa khi có lỗi"
+        q: "Trong thiết kế kiến trúc hệ thống đám mây nhằm đảm bảo an toàn bảo mật, đâu là nhận định SAI về yêu cầu quản lý khóa?",
+        ops: ["Với mô hình đám mây có cơ sở hạ tầng trên nhiều trung tâm dữ liệu, cần đảm bảo việc hủy bỏ khóa phải có hiệu lực tức thì trên các trạm.", "Mã hóa dữ liệu và máy ảo khi cần thiết.", "Đảm bảo việc phân phối khóa khi có lỗi.", "Có cơ chế kiếm soát và giới hạn các truy cập vào khóa."],
+        a: "Đảm bảo việc phân phối khóa khi có lỗi."
     },
     {
-        q: "Để nhân viên được cấp phép truy cập tầng trung tâm dữ liệu, điều kiện xác thực là gì?",
-        ops: ["Xác thực 2 bước không ít hơn 3 lần", "Xác thực 2 bước không ít hơn 2 lần", "Xác thực 3 bước không ít hơn 3 lần", "Xác thực 1 bước"],
-        a: "Xác thực 2 bước không ít hơn 2 lần"
-    },
-    {
-        q: "Đâu KHÔNG là các đặc điểm của sử dụng dịch vụ phần mềm SaaS?",
-        ops: ["Tính sẵn sàng cao", "Cung cấp qua Internet", "Thanh toán theo thuê bao", "Người dùng được toàn quyền quản lý tài nguyên hệ thống"],
-        a: "Người dùng được toàn quyền quản lý tài nguyên hệ thống"
+        q: "Liên quan đến bảo mật mức vật lý, đâu là điều kiện để những nhân viên được cấp phép phải thực hiện mới có thể truy cập vào tầng trung tâm dữ liệu?",
+        ops: ["Sử dụng phương pháp xác thực hai bước không ít hơn ba lần", "Sử dụng phương pháp xác thực hai bước không ít hơn hai lần", "Sử dụng phương pháp xác thực ba bước không ít hơn ba lần", "Sử dụng phương pháp xác thực ba bước không ít hơn hai lần"],
+        a: "Sử dụng phương pháp xác thực hai bước không ít hơn hai lần"
     }
 ];
 
@@ -144,20 +145,23 @@ function shuffle(array) {
 
 function renderQuiz() {
     const container = document.getElementById('quiz-container');
-    const shuffledQs = shuffle([...questions]);
-
-    shuffledQs.forEach((item, index) => {
+    
+    questions.forEach((item, index) => {
         const box = document.createElement('div');
         box.className = 'question-box';
         box.innerHTML = `<div class="question-text">Câu ${index + 1}: ${item.q}</div>`;
 
         const optsDiv = document.createElement('div');
+        // Trộn các phương án trả lời để không bị học vẹt vị trí
         shuffle([...item.ops]).forEach(optText => {
             const optBtn = document.createElement('div');
             optBtn.className = 'option';
             optBtn.innerText = optText;
+            
             optBtn.onclick = () => {
                 const siblings = optsDiv.querySelectorAll('.option');
+                if (siblings[0].classList.contains('disabled')) return;
+                
                 siblings.forEach(s => s.classList.add('disabled'));
                 
                 if (optText === item.a) {
@@ -185,6 +189,7 @@ function updateStatus() {
     document.getElementById('status').innerText = `Tiến độ: ${total}/20 | Đúng: ${correctCount} | Sai: ${wrongCount}`;
 }
 
+// Bắt đầu hiển thị câu hỏi
 renderQuiz();
 </script>
 
